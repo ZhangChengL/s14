@@ -1,53 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Author:Zhangcl
-
-menu = {
-    '四川':{
-        '成都':{
-            '成华区':{
-                '电子科技大学':{},
-                '成都动物园':{},
-
-            },
-            '武侯区':{
-                '玉林':{},
-                '神仙树':{},
-
-            },
-            '高新区':{
-                '高新国际广场':{},
-            },
-        },
-        '绵阳':{
-            '江油':{
-                '老男孩':{},
-                '北航':{},
-            },
-            '三台':{}
-
-        },
-  },
-    '上海':{
-        '闵行':{
-            "人民广场":{
-                '炸鸡店':{}
-            }
-        },
-        '闸北':{
-            '火车站':{
-                '携程':{}
-            }
-        },
-        '浦东':{
-            '机场':{
-                'T2航站楼':{}
-            }
-        },
-    },
-   }
-#m1 = open('menu','r',encoding='utf-8')
-
+m1 = open('menu','r',encoding='utf-8')
+m =m1.read()
+menu = eval(m)
 while True:
     for i in menu:
         print(i)
@@ -66,6 +22,7 @@ while True:
                             #while True:
                                 for i4 in menu[chooes][chooes2][chooes3]:
                                     print(i4)
+                                    #print(menu[chooes][chooes2][chooes3])
                                 chooes4 = input('最后一层，按b返回，按e退出：')
                                 if chooes4 == 'b':
                                     break
