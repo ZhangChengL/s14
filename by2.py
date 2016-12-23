@@ -65,53 +65,57 @@ mes ='''
 print(mes)
 while True:
     choice =input('请选择：')
-    choice = int(choice)
-    if choice == 1:
-        good = open('good','r',encoding='utf-8').read()
-        goods = eval(good)
-        for index,item in enumerate(goods):
-            print(index,item)
-        good_by = []
-        user_by = {}
-        yourmoneys = int(youmoney)
-        while True:
-            good_id = input('输入你需要购买的商品ID，按e键可结束购买:')
-            if good_id == 'e':
-                print('你本次购买的商品：\033[1;31m%s\033[0m'%good_by)
-                print('剩余余额：\033[1;31m%s\033[0m' %yourmoneys)
-                break
-            if good_id.isdigit():
-                good_id = int(good_id)
-                if good_id < len(goods) and good_id >=0:
-                    if goods[good_id][1] <= yourmoneys:
-                        good_by.append(goods[good_id])
-                        yourmoneys -= goods[good_id][1]
-                        print('\033[1;34m你选择的商品%s已加入购物车\033[0m' %goods[good_id])
+
+    if choice.isdigit():
+        choice = int(choice)
+        if choice == 1:
+            good = open('good','r',encoding='utf-8').read()
+            goods = eval(good)
+            for index,item in enumerate(goods):
+                print(index,item)
+            good_by = []
+            user_by = {}
+            yourmoneys = int(youmoney)
+            while True:
+                good_id = input('输入你需要购买的商品ID，按e键可结束购买:')
+                if good_id == 'e':
+                    print('你本次购买的商品：\033[1;31m%s\033[0m'%good_by)
+                    print('剩余余额：\033[1;31m%s\033[0m' %yourmoneys)
+                    break
+                if good_id.isdigit():
+                    good_id = int(good_id)
+                    if good_id < len(goods) and good_id >=0:
+                        if goods[good_id][1] <= yourmoneys:
+                            good_by.append(goods[good_id])
+                            yourmoneys -= goods[good_id][1]
+                            print('\033[1;34m你选择的商品%s已加入购物车\033[0m' %goods[good_id])
+                        else:
+                            print('\033[1;31m余额不足:%s\033[0m ' %yourmoneys)
                     else:
-                        print('\033[1;31m余额不足:%s\033[0m ' %yourmoneys)
+                        print('\033[1;31m你输入的商品不存在，请重新输入或者按e退出\033[0m')
                 else:
-                    print('\033[1;31m你输入的商品不存在，请重新输入或者按e退出\033[0m')
-            else:
-                print('\033[1;31m输入错误，请输入数字或者e退出\033[0m')
-        record = open('record', 'r+', encoding='utf-8')
-        records = eval(record.read())
-        good_old=records.get(yourname)
-        good_by.append(good_old)
-        user_by.setdefault(yourname,good_by)
-        records.update(user_by)
-        records_str = str(records)
-        record_w = open('record','w',encoding='utf-8')
-        record_w.writelines(records_str)  #追加消费记录
-        record.close()
-        record_w.close()
-    if choice == 2:
-        print('\033[1;32m你的历史消费记录：\033[0m')
-        record_c = open('record', 'r+', encoding='utf-8').read()
-        records_c = eval(record_c)
-        print(records_c.get(yourname))  #查询消费记录
-    if choice == 3:
-        print('\033[1;32m欢迎下次光临！\033[0m')
-        break
+                    print('\033[1;31m输入错误，请输入数字或者e退出\033[0m')
+            record = open('record', 'r+', encoding='utf-8')
+            records = eval(record.read())
+            good_old=records.get(yourname)
+            good_by.append(good_old)
+            user_by.setdefault(yourname,good_by)
+            records.update(user_by)
+            records_str = str(records)
+            record_w = open('record','w',encoding='utf-8')
+            record_w.writelines(records_str)  #追加消费记录
+            record.close()
+            record_w.close()
+        if choice == 2:
+            print('\033[1;32m你的历史消费记录：\033[0m')
+            record_c = open('record', 'r+', encoding='utf-8').read()
+            records_c = eval(record_c)
+            print(records_c.get(yourname))  #查询消费记录
+        if choice == 3:
+            print('\033[1;32m欢迎下次光临！\033[0m')
+            break
+    else:
+        print('\033[1;31m输入错误请重新输入!!\033[0m')
 acc_mon_new = open('byacc_new', 'w')
 acc_mon_old = open('byacc', 'r')
 for c in acc_mon_old:
