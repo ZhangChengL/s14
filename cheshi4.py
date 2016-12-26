@@ -28,5 +28,5 @@ def input_backend():
     your_new_server = 'server' + ' ' + yourserver + ' ' + 'weight' + ' ' + yourweight + ' ' + 'maxconn' + ' ' + yourmaxconn
     return your_new_server,yourserver,yourweight,yourmaxconn
 
-x=input_backend()
-print(x.yourserver)
+x = input_backend(yourserver)
+print(x)

@@ -3,4 +3,4 @@ backend www.oldboy.org
 backend www.sina.com
         server 10.7.2.30 weight 20 maxconn 1000
 backend www.qq.com
-        server 10.7.1.111 weight 11 maxconn 1111
+        server 10.7.2.77 weight 77 maxconn 7777
