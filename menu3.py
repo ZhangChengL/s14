@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Author:Zhangcl
-m1 = open('menu','r',encoding='utf-8')
+#menu存放菜单信息
+m1 = open('menu.txt','r',encoding='utf-8')
 m =m1.read()
 menu = eval(m)
 while True:
@@ -50,3 +51,4 @@ while True:
         exit()
     else:
         pass
+m1.close()

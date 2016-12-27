@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Author:Zhangcl
-
+#acc文件存放用户账户和密码，byacc存放用户金额，good文件存放商品列表，record存放购物记录
 import os
 import sys
 acc_mon = open('byacc','r+')
-acc = open('acc','r',encoding='utf-8')
+acc = open('acc.txt','r',encoding='utf-8')
 yourname = input('输入用户名：')
 password = input('输入密码：')
 match = False
@@ -62,8 +62,9 @@ mes ='''
 3.退出\033[0m
 
 '''
-print(mes)
+
 while True:
+    print(mes)
     choice =input('请选择：')
 
     if choice.isdigit():

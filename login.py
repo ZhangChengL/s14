@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Author:Zhangcl
-acc = open('acc','r',encoding='utf-8')
-black = open('black','r+',encoding='utf-8')
+#acc文件存放用户名和密码，black存放黑名单
+acc = open('acc.txt','r',encoding='utf-8')
+black = open('black.txt','r+',encoding='utf-8')
 while True:
     yourname = input('请输入用户名：')
     for black_list in black:
