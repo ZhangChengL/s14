@@ -1,0 +1,9 @@
+backend www.oldboy.org
+        server 100.1.7.9  weight 20 maxconn 3000
+backend www.sina.com
+        server 10.7.4.40 weight 440 maxconn 44400
+backend www.qq.com
+        server 10.7.2.77 weight 27 maxconn 2777
+backend www.baidu.com
+        server 10.7.1.86 weight 186 maxconn 1866
+
