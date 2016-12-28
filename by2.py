@@ -48,7 +48,7 @@ if money_out == False:
     acc_mon.close()
 acc_mons = open('byacc','r+')
 for x in acc_mons:
-    by_accs,by_moneys = x.strip().split()
+    by_accs,by_moneys = tuple(x.strip().split())
     if yourname == by_accs:
         print('尊敬的顾客，你的余额为：\033[1;31m%s\033[0m' % by_moneys)
         yourname = by_accs
