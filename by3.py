@@ -46,7 +46,7 @@ while True:
             if your_money == '0':
                 yourmoney = input('你是第一次登录，请输入你的金额：')
                 your_money = yourmoney
-                print(your_money)
+                #print(your_money)
             else:
                 print('欢迎再次光临！你的余额为%s' %your_money)
 
@@ -189,3 +189,27 @@ while True:
     if login_choise == '3':
         print('\033[1;32m欢迎下次光临！\033[0m')
         exit()
+    if login_choise == '2':
+        add_login = open('by_acc.txt','r')
+        add_logins = open('by_acc_login.txt','w')
+        add_name = input('请输入用户名：')
+        add_pass = input('请输入登录密码：')
+        add_pass_agin = input('请再次输入登录密码：')
+        add_money = '0'
+        if add_pass == add_pass_agin:
+            for ad in add_login:
+                lg_usr,lg_psaa,lg_money = tuple(ad.strip().split())
+                login_usr_lod =lg_usr+' '+lg_psaa+' '+lg_money+'\n'
+                add_logins.write(login_usr_lod)
+            add_user =add_name + ' ' + add_pass + ' ' + add_money
+            add_logins.write(add_user)
+            add_login.close()
+            add_logins.close()
+            os.rename('by_acc.txt', 'by_acc_login_tmp.txt')
+            os.rename('by_acc_login.txt', 'by_acc.txt')
+            os.remove('by_acc_login_tmp.txt')
+            print('\033[1;31m注册成功\033[0m')
+        else:
+            print('两次密码不一致，请重新注册！')
+    else:
+        print('输入错误！请重新输入')
