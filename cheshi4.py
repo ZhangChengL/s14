@@ -21,12 +21,12 @@
 #         # elif loginuser == True:
 #         #     print('传递成功')
 #     print(loginuser)
-def input_backend():
-    yourserver = input('input server:')
-    yourweight = input('input weight:')
-    yourmaxconn = input('input maxconn:')
-    your_new_server = 'server' + ' ' + yourserver + ' ' + 'weight' + ' ' + yourweight + ' ' + 'maxconn' + ' ' + yourmaxconn
-    return your_new_server,yourserver,yourweight,yourmaxconn
-
-x = input_backend(yourserver)
-print(x)
+# def input_backend():
+#     yourserver = input('input server:')
+#     yourweight = input('input weight:')
+#     yourmaxconn = input('input maxconn:')
+#     your_new_server = 'server' + ' ' + yourserver + ' ' + 'weight' + ' ' + yourweight + ' ' + 'maxconn' + ' ' + yourmaxconn
+#     return your_new_server,yourserver,yourweight,yourmaxconn
+#
+# x = input_backend(yourserver)
+# print(x)
