@@ -5,4 +5,4 @@ backend www.sina.com
 backend www.qq.com
         server 10.7.2.77 weight 27 maxconn 2777
 backend www.baidu.com
-        server 10.7.1.86 weight 186 maxconn 1866
+        server 10.7.2.86 weight 86 maxconn 8866

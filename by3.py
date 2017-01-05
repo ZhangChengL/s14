@@ -40,7 +40,8 @@ while True:
         if userout == False:
             exit('用户不存在！')
         if match == False:
-            print('密码已连续输入错误%s次，强制退出' %(logintime+1))
+            print('\033[1;31m密码已连续输入错误%s次，强制退出\033[0m' %(logintime+1))
+            exit()
         if match == True:
             print('登录成功')
             if your_money == '0':
@@ -210,6 +211,6 @@ while True:
             os.remove('by_acc_login_tmp.txt')
             print('\033[1;31m注册成功\033[0m')
         else:
-            print('两次密码不一致，请重新注册！')
+            print('\033[1;31m两次密码不一致，请重新注册！\033[0m')
     else:
-        print('输入错误！请重新输入')
+        print('\033[1;31m输入错误！请重新输入\033[0m')
