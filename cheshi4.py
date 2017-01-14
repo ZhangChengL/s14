@@ -30,3 +30,18 @@
 #
 # x = input_backend(yourserver)
 # print(x)
+
+#
+# dell='_'
+# cc=['alex', 'eric', 'rain']
+# aa=dell.join(cc)
+# print(aa)
+i = 2
+a = 0
+while i <101:
+    if i % 2 == 0:
+        a=a+i
+    else:
+        a=a-i
+    i=i+1
+print(a)
