@@ -269,16 +269,45 @@ import os
 #     print('test1')
 #     return test1
 # print(test1())
+# import time
+# def timer(func): #timer(test1) func=test1
+#     def deco():
+#         start_time=time.time()
+#         func() #run test1()
+#         stop_time=time.time()
+#         print('the func run time is %s' %(stop_time-start_time))
+#     return deco
+# @timer #test1=timer(test1)
+# def test1():
+#     time.sleep(3)
+#     print('this is test1')
+# test1()
+#
+#
+
+
+#_*_coding:utf-8_*_
+__author__ = 'Alex Li'
+
 import time
-def timer(func): #timer(test1) func=test1
-    def deco():
-        start_time=time.time()
-        func() #run test1()
-        stop_time=time.time()
-        print('the func run time is %s' %(stop_time-start_time))
-    return deco
-@timer #test1=timer(test1)
-def test1():
-    time.sleep(3)
-    print('this is test1')
-test1()
+def consumer(name):
+    print("%s 准备吃包子啦!" %name)
+    while True:
+       baozi = yield
+
+       print("包子[%s]来了,被[%s]吃了!" %(baozi,name))
+
+
+def producer(name):
+    c = consumer('A') #生成生成器
+    c2 = consumer('B')
+    c.__next__() # 调用生成器，执行生成器到yield
+    c2.__next__()
+    print("%s开始准备做包子啦!" %name)
+    for i in range(10):
+        time.sleep(1)
+        print("做了2个包子!")
+        c.send(i)#传入参数并调用生成器，从yield之后开始执行
+        c2.send(i)
+
+producer("alex")
