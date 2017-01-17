@@ -30,6 +30,23 @@
 #
 # x = input_backend(yourserver)
 # print(x)
+<<<<<<< HEAD
+
+#
+# dell='_'
+# cc=['alex', 'eric', 'rain']
+# aa=dell.join(cc)
+# print(aa)
+i = 2
+a = 0
+while i <101:
+    if i % 2 == 0:
+        a=a+i
+    else:
+        a=a-i
+    i=i+1
+print(a)
+=======
 import json
 import os
 # delimiter = ' '
@@ -290,6 +307,7 @@ import os
 __author__ = 'Alex Li'
 
 import time
+<<<<<<< HEAD
 def consumer(name):
     print("%s 准备吃包子啦!" %name)
     while True:
@@ -311,3 +329,18 @@ def producer(name):
         c2.send(i)
 
 producer("alex")
+=======
+def timer(func): #timer(test1) func=test1
+    def deco():
+        start_time=time.time()
+        func() #run test1()
+        stop_time=time.time()
+        print('the func run time is %s' %(stop_time-start_time))
+    return deco
+@timer #test1=timer(test1)
+def test1():
+    time.sleep(3)
+    print('this is test1')
+test1()
+>>>>>>> origin/master
+>>>>>>> origin/master
