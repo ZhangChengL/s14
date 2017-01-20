@@ -126,7 +126,9 @@ while True:
             path()
             staff_old,staff_new=file_open()
             add_name, add_age, add_phone, add_dept, add_enroll_date = staff_input()
-            #print(staff_old.read())
+            file_line=staff_old.read()
+            # if len(file_line)==0:
+            #     ad_num=1
             for aad in staff_old.read():
                 staff_new.write(aad)
                 ad_list = aad.split(' ')
