@@ -18,7 +18,7 @@ import time
 staff_table="staff_table.txt"
 staff_table_new="staff_table_new.txt"
 staff_table_tmp="staff_table_tmp.txt"
-
+phone_count=3
 path_exis =os.path.exists(staff_table)
 if path_exis == False:
     exit('配置文件不存在，强制退出')
@@ -38,6 +38,7 @@ def file_tmp():
     os.rename(staff_table_new,staff_table)
     os.remove(staff_table_tmp)
 def staff_input():
+    is_true=False
     name=input("请输入姓名：")
     if len(name)<2 or len(name)>6:
         exit("姓名输入错误！")
@@ -62,26 +63,21 @@ def staff_input():
     if enroll_date_stamp > now_time_stamp:
         exit("请输入正确的日期")
     return name,age,phone,dept,enroll_date
-#def ddel():#删除模块
-
- #   pass
-def add():#新增
-    pass
-def update():#更新
-    pass
-def select():#查询
-    pass
 
 meg='''
-===================================
+\033[1;32m
+***********************************
 1.查询
 2.新建
 3.删除
 4.修改
 5.退出
+***********************************
+\033[0m
 '''
 meg_cx='''
-====================================
+\033[1;32m
+***********************************
 1.按员工ID查询
 2.按姓名查询
 3.按年龄查询
@@ -89,7 +85,10 @@ meg_cx='''
 5.按职位查询
 6.按入职年份查询
 7.退出查询
+************************************
+\033[0m
 '''
+
 while True:
     print(meg)
     choice=input('请选择：')
@@ -119,23 +118,33 @@ while True:
                                 a = i.split(' ')
                                 if a[cx_choices-1] == your_find:
                                     cc=' '.join(a)
-                                    print(cc)
+                                    print('\33[1;31m %s \033[0m' %cc)
                 else:
-                    print('输入错误，请重新输入')
+                    print('\033[1;31m输入错误！\033[0m')
         if choices==2:
             path()
             staff_old,staff_new=file_open()
             add_name, add_age, add_phone, add_dept, add_enroll_date = staff_input()
-            file_line=staff_old.read()
-            # if len(file_line)==0:
-            #     ad_num=1
-            for aad in staff_old.read():
+            file_len=open(staff_table,'r',encoding='utf-8')
+            if len(file_len.read())==0:
+                ad_num=1
+            file_len.close()
+            for aad in staff_old:
                 staff_new.write(aad)
-                ad_list = aad.split(' ')
+                ad_list = aad.split()
                 ad_num = int(ad_list[0]) + 1
+                phone_input=1
                 if ad_list[3] ==add_phone:
-                    print('电话号码重复，请确认电话号码是否正确！')
-                    break
+                    while True:
+                        print('\033[1;31m电话号码重复，请确认号码重新输入！\033[0m')
+                        add_phone = input("请输入电话号码：")
+                        if len(add_phone) != 11 or add_phone.isdigit() == False:
+                            print("\033[1;31m请输入正确的手机号！\033[0m")
+                        if ad_list[3] !=add_phone:
+                            break
+                        phone_input+=1
+                        if phone_input == phone_count:
+                            exit('电话输入重复多次，强制退出！')
             add_list = [str(ad_num), add_name, add_age, add_phone, add_dept,add_enroll_date]
             print(add_list)
             add_staff_into = ' '.join(add_list)+'\n'
@@ -147,16 +156,37 @@ while True:
             path()
             staff_old, staff_new = file_open()
             num = input("请输入需要删除的员工id：")
-            for i in staff_old:
-                if i.strip().startswith(num):
-                    continue
-                staff_new.write(i)
+            if num.isdigit():
+                for i in staff_old:
+                    if i.strip().startswith(num):
+                        continue
+                    staff_new.write(i)
+                    print('删除成功！')
+            else:
+                print('\033[1;31m输入错误！\033[0m')
+                break
             staff_old.close()
             staff_new.close()
             file_tmp()
-            #pass
         if choices==4:
-            pass
+            path()
+            staff_old,staff_new=file_open()
+            you_want_up=input('请输入需要被修改的内容：')
+            you_new_up=input('请输入修改后的内容：')
+            for xx in staff_old:
+                find_up=xx.split()
+                if you_want_up in find_up:
+                    find_num=find_up.index(you_want_up)
+                    find_up.remove(you_want_up)
+                    find_up.insert(find_num,you_new_up)
+                    up_staff_into = ' '.join(find_up) + '\n'
+                    staff_new.write(up_staff_into)
+                else:
+                    staff_new.write(xx)
+                print('更新成功！')
+            staff_old.close()
+            staff_new.close()
+            file_tmp()
         if choices==5:
             exit()
     else:
