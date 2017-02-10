@@ -1,0 +1,2 @@
+2017-02-08 14:55:49,773 - __main__ - logtest.py   INFO : this is info
+2017-02-08 14:55:49,773 - __main__ - logtest.py   WARNING : this is warning
