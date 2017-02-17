@@ -145,12 +145,33 @@
 #         data = input("请输入数据>>:").strip()
 #         msg_dict[choice](data)
 import re
-aa='insert into emp values(狗蛋,24,15882060129,it,2017-01-23)'
-sql_list=re.split(' ',aa)
-print(aa)
-cc=re.search('\(.*\)',aa).group()
-ccc=cc.split('(')[1].split(')')[0].split(',')
-print(' '.join(ccc))
-aaaaa=['6', '狗蛋', '24', '1237889712', 'it', '2017-01-23']
-aab=' '.join(aaaaa)
-print(aab)
+# aa='insert into emp values(狗蛋,24,15882060129,it,2017-01-23)'
+# sql_list=re.split(' ',aa)
+# print(aa)
+# cc=re.search('\(.*\)',aa).group()
+# ccc=cc.split('(')[1].split(')')[0].split(',')
+# print(' '.join(ccc))
+# aaaaa=['6', '狗蛋', '24', '1237889712', 'it', '2017-01-23']
+# aab=' '.join(aaaaa)
+# print(aab)
+#
+chag = {
+    'staff_id': 0,
+    'name': 1,
+    'age': 2,
+    'phone': 3,
+    'dept': 4,
+    'enroll_date': 5
+}
+
+print(chag['age'])
+a=['aa','bbb','cc','ff']
+cc=['name','age']
+for i in cc:
+    print(a[chag[i]])
+import re
+sql=input('sql>>')
+if re.search("^(?i)select",sql) is not None:
+    print('yes')
+else:
+    print('no')
