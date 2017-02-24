@@ -1,0 +1,10 @@
+2017-02-22 17:21:05,286 - transaction - INFO - user:1234   action:repay    amount:10.0   interest:0.0
+2017-02-22 17:21:18,384 - transaction - INFO - user:1234   action:withdraw    amount:10.0   interest:0.5
+2017-02-22 17:45:46,631 - transaction - INFO - user:1234   action:repay    amount:10.0   interest:0.0
+2017-02-22 17:46:09,822 - transaction - INFO - user:1234   action:repay    amount:10.0   interest:0.0
+2017-02-22 17:46:30,534 - transaction - INFO - user:1234   action:withdraw    amount:10.0   interest:0.5
+2017-02-23 17:13:42,517 - transaction - INFO - user:1234   action:transfer    money:200.0   interest:10.0
+2017-02-23 17:29:06,198 - transaction - INFO - user:1234   action:transfer    money:200.0   interest:10.0
+2017-02-24 10:05:31,128 - transaction - INFO - user:5678   action:transfer    money:200.0   interest:10.0
+2017-02-24 10:05:45,949 - transaction - INFO - user:5678   action:repay    money:10.0   interest:0.0
+2017-02-24 10:06:14,755 - transaction - INFO - user:5678   action:withdraw    money:10.0   interest:0.5
