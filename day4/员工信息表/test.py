@@ -155,23 +155,36 @@ import re
 # aab=' '.join(aaaaa)
 # print(aab)
 #
-chag = {
-    'staff_id': 0,
-    'name': 1,
-    'age': 2,
-    'phone': 3,
-    'dept': 4,
-    'enroll_date': 5
-}
+# chag = {
+#     'staff_id': 0,
+#     'name': 1,
+#     'age': 2,
+#     'phone': 3,
+#     'dept': 4,
+#     'enroll_date': 5
+# }
+#
+# print(chag['age'])
+# a=['aa','bbb','cc','ff']
+# cc=['name','age']
+# for i in cc:
+#     print(a[chag[i]])
+# import re
+# sql=input('sql>>')
+# if re.search("^(?i)select",sql) is not None:
+#     print('yes')
+# else:
+#     print('no')
 
-print(chag['age'])
-a=['aa','bbb','cc','ff']
-cc=['name','age']
-for i in cc:
-    print(a[chag[i]])
-import re
-sql=input('sql>>')
-if re.search("^(?i)select",sql) is not None:
-    print('yes')
-else:
-    print('no')
+import time
+import datetime
+now_time=time.strftime('%Y-%m-%d',time.localtime(time.time()))
+f_time=datetime.date.today() + datetime.timedelta(days=1825)
+print(now_time)
+print(f_time)
+
+
+import datetime
+print (datetime.datetime.now())
+cc_time=datetime.datetime.now() - datetime.timedelta(days=5)
+print(cc_time.strftime('%Y-%m-%d'))
