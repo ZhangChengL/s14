@@ -10,13 +10,9 @@ from core import logger
 from core import userinfo
 from core import transactions
 
-shop_user={
-    'user_id':None,
-    'by_id':None
-}
 
-def shop_login(shop_user):
-    user_date=auth.shop_login(shop_user)
+def shop_login():
+    pass
 
 
 def shop_register():
