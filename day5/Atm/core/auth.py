@@ -66,3 +66,17 @@ def shop_login(user_date):
         user_ps=input('请输入密码>>>:').strip()
         db_path=set.SHOP_DATABASE
         user_file= '%s/%s.json'%(db_path,user_id)
+        if os.path.isfile(user_file):
+            f = open(user_file, 'r')
+            acc_date = json.load(f)
+            if acc_date['password'] == user_ps:
+                user_date[ 'user_id']=user_id
+                user_date['by_id']=acc_date['atmID']
+                return user_date
+            else:
+                print('密码错误！')
+                log_time=log_time+1
+        else:
+            print('用户不存在！请确认后登录！')
+    else:
+        print('连续输入密码错误3次，强制退出！')

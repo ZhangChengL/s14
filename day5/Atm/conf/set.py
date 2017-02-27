@@ -24,6 +24,9 @@ DATABASE = "%s/db/accounts" % BASE_DIR
 
 SHOP_DATABASE = "%s/db/shop_acc" %BASE_DIR
 
+SHOP_RE_DATABASE="%s/db/shopre"%BASE_DIR
+
+BD_GOODS="%s/db/goods/by_good.txt"%BASE_DIR
 ADMIN ={
     'account':'admin',
     'password':'admin'
