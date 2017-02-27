@@ -23,7 +23,7 @@ def atm():
         elif login_choise == '2':
             main.adminrun()
         else:
-            print('输入错误！')
+            print('输入错误！！')
 
 index_menu='''
 ---------Welcome----------
