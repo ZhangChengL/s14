@@ -59,4 +59,10 @@ def admin_login(admin_lg_auth,admin_logger):
         exit()
 
 
-
+def shop_login(user_date):
+    log_time= 0
+    while log_time < 3:
+        user_id=input('输入用户名>>>:').strip()
+        user_ps=input('请输入密码>>>:').strip()
+        db_path=set.SHOP_DATABASE
+        user_file= '%s/%s.json'%(db_path,user_id)
