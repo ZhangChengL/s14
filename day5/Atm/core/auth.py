@@ -9,7 +9,7 @@ import json
 import time
 
 
-def acc_login(user_date,the_log):
+def acc_login(user_date,the_log):#ATM用户登录接口
     log_time = 0
     while user_date['is_auth'] != True and log_time <3:
         account=input('account>>>:').strip()
@@ -27,22 +27,22 @@ def acc_login(user_date,the_log):
                         user_date['acc_id'] = account
                         return acc_date
                     else:
-                        print('用户状态异常，请联系管理员！')
+                        print('\033[1;31m用户状态异常，请联系管理员！\033[0m')
                         break
                 else:
-                    print('用户状态异常，请联系管理员！')
+                    print('\033[1;31m用户状态异常，请联系管理员！\033[0m')
                     break
             else:
-                print('账户密码错误！请重新输入！')
+                print('\033[1;31m账户密码错误！请重新输入！\033[0m')
             log_time +=1
         else:
-            print('用户不存在！')
+            print('\033[1;31m用户不存在！\033[0m')
     else:
         the_log.error('user: %s too many login attempts!' %account)
         exit()
 
 
-def admin_login(admin_lg_auth,admin_logger):
+def admin_login(admin_lg_auth,admin_logger):#ATM管理员端登录接口
     log_time = 0
     while admin_lg_auth['admin_auth'] != True and log_time < 3:
         adminacc=input('请输入管理员账户>>>:').strip()
@@ -59,7 +59,7 @@ def admin_login(admin_lg_auth,admin_logger):
         exit()
 
 
-def shop_login(user_date):
+def shop_login(user_date):#购物端登录接口
     log_time= 0
     while log_time < 3:
         user_id=input('输入用户名>>>:').strip()
@@ -74,9 +74,9 @@ def shop_login(user_date):
                 user_date['by_id']=acc_date['atmID']
                 return user_date
             else:
-                print('密码错误！')
+                print('\033[1;31m密码错误！\033[0m')
                 log_time=log_time+1
         else:
-            print('用户不存在！请确认后登录！')
+            print('\033[1;31m用户不存在！请确认后登录！\033[0m')
     else:
-        print('连续输入密码错误3次，强制退出！')
+        print('\033[1;31m连续输入密码错误3次，强制退出！\033[0m')

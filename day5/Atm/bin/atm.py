@@ -10,10 +10,11 @@ from core import main
 from shopping import shopmain
 
 def atm():
-    atm_menu='''
+    atm_menu='''\033[1;31m
     ---------Welcome----------
     1. 普通用户登录
     2. 管理员登录
+    3. 退出\033[0m
     '''
     while True:
         print(atm_menu)
@@ -22,13 +23,15 @@ def atm():
             main.userrun()
         elif login_choise == '2':
             main.adminrun()
+        elif login_choise == '3':
+            exit()
         else:
-            print('输入错误！！')
+            print('\033[1;31m输入错误！！\033[0m')
 
-index_menu='''
+index_menu='''\033[1;34m
 ---------Welcome----------
 1.ATM
-2.商店
+2.商店\033[0m
 '''
 while True:
     print(index_menu)

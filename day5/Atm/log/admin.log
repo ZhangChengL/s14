@@ -12,3 +12,12 @@
 2017-02-24 10:08:57,184 - admin - INFO - admin login success!
 2017-02-24 10:09:09,696 - admin - INFO - user: 5678 has been frozen!
 2017-02-24 10:11:11,815 - admin - INFO - admin login success!
+2017-03-05 20:05:53,486 - admin - INFO - admin login success!
+2017-03-05 20:06:10,347 - admin - INFO - user:%s Create success!
+2017-03-05 20:06:39,650 - admin - INFO - user: 1234 credit is update!
+2017-03-05 20:06:59,612 - admin - INFO - user: 0305 credit is update!
+2017-03-05 20:08:18,234 - admin - INFO - admin login success!
+2017-03-05 20:08:25,323 - admin - INFO - user: 0305 Password has been initialized!
+2017-03-05 20:09:23,121 - admin - INFO - admin login success!
+2017-03-05 20:09:30,013 - admin - INFO - user: 0305 Password has been initialized!
+2017-03-05 20:09:39,884 - admin - INFO - user: 0305 has been frozen!
