@@ -31,3 +31,5 @@
 2017-03-05 20:03:42,486 - transaction - INFO - user:1234   action:repay    money:19.0   interest:0.0
 2017-03-05 20:03:52,071 - transaction - INFO - user:1234   action:withdraw    money:9.0   interest:0.45
 2017-03-05 20:13:22,743 - transaction - INFO - user:1234   action:consume    money:1510.0   interest:0.0
+2017-03-08 14:49:13,947 - transaction - INFO - user:5678   action:transfer    money:1.0   interest:0.05
+2017-03-08 14:49:13,948 - transaction - INFO - user:1234   action:Receivables    money:1.0   interest:0

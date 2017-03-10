@@ -1,1 +1,1 @@
-{"status": 0, "expire_date": "2021-01-01", "id": 1234, "password": "1234", "money": 15774.05, "credit": "200000", "enroll_date": "2016-01-02"}
+{"status": 0, "enroll_date": "2016-01-02", "money": 15775.05, "password": "1234", "id": 1234, "credit": "200000", "expire_date": "2021-01-01"}
