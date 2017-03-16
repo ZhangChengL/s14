@@ -33,3 +33,5 @@ ATM
         transactions.log #交易流水
    shopping:
         shopmain.py #购物端主逻辑
+
+注：管理员账户密码为：admin admin
