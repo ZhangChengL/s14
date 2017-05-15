@@ -103,3 +103,13 @@ obj.func()     # 类内部可以访问
 
 obj_son = D()
 obj_son.show() # 派生类中可以访问
+
+class Dog(object):
+    def __init__(self,name,type):
+        self.name=name
+        self.type=type
+    def sh(self):
+        print('hello ,i am a %s,my name is %s'%(self.type,self.name))
+
+dog=Dog('zz','泰迪')
+dog.sh()
