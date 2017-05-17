@@ -10,6 +10,9 @@ from core.course import Course
 from core.class_c import Class
 from core.teacher import Teacher
 from core.student import Student
+from core.logininfo import Student_info
+from core.logininfo import Teacher_info
+from core import setting
 class School(object):
     '''学校类，包含名称，地址，课程，班级，教师'''
     def __init__(self,school_name,school_addr):
@@ -17,7 +20,7 @@ class School(object):
         self.school_addr = school_addr
         self.school_course = {}             #学校所有的课程实例    {"课程名“：课程实例}
         self.school_class = {}
-        self.school_teacher = {}    #类型与course一致
+        self.school_teacher = {}#类型与course一致
 
     def create_course(self,course_name,course_price,course_time):
         '''创建课程'''
@@ -34,6 +37,7 @@ class School(object):
         teacher_obj = Teacher(teacher_name, teacher_salary)
         teacher_obj.teacher_add_class(class_name,class_obj)
         self.school_teacher[teacher_name] = teacher_obj
+        #taecher_info=Teacher_info(teacher_name,setting.teacher_passwd)
 
     def create_student(self, student_name, student_age, class_choice):
         '''注册学生'''

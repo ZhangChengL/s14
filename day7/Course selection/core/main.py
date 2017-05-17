@@ -60,7 +60,7 @@ class Student_manage(object):
                    getattr(self,student_menu_dict[student_chois_into])()
 
     def student_register(self):
-        pass
+
 
     def student_login(self):
         pass
