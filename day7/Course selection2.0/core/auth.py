@@ -10,7 +10,7 @@ class User_login(object):
         self.account=account
         self.passwd=passwd
         self.user_date=user_date
-    def student_login(self):
+    def student_and_teacher_login(self):
         log_time = 0
         while self.user_date['is_auth'] != True and log_time < 3:
             db_path=setting.DB_LOGIN
