@@ -10,6 +10,8 @@ class User_login(object):
         self.account=account
         self.passwd=passwd
         self.user_date=user_date
+
+
     def student_and_teacher_login(self):
         log_time = 0
         while self.user_date['is_auth'] != True and log_time < 3:
@@ -30,6 +32,8 @@ class User_login(object):
         else:
             print('\033[1;31m连续登录错误3次，强制退出\033[0m')
             exit()
+
+
     def admin_login(self):
         log_time = 0
         if log_time < 3:
