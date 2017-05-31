@@ -4,3 +4,6 @@
 
 class Student_manage(object):
     pass
+
+    def menu(self):
+        print('hh')

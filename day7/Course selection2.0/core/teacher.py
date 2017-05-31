@@ -3,3 +3,6 @@
 # Author:Zhangcl
 class Teacher_manage(object):
     pass
+
+    def menu(self):
+        print('hh')
