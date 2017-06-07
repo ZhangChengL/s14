@@ -18,7 +18,7 @@ class User_login(object):
             db_path=setting.DB_LOGIN
             acc_file='%s/%s.pickle'%(db_path,self.account)
             if os.path.isfile(acc_file):
-                f = open(acc_file, 'r')
+                f = open(acc_file, 'rb')
                 acc_date = pickle.load(f)
                 if acc_date['password'] == self.passwd:
                     self.user_date['acc_name']=acc_date['acc_name']

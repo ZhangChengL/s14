@@ -8,14 +8,15 @@ from core.auth import User_login
 from core.student import Student_manage
 from core.teacher import Teacher_manage
 from core.admin import Admin_manage
+from core.userinfo import File_operate
 user_date = {
     'acc_name':None,
     'is_auth':False
 }
 
-class User(object):
+class User(File_operate):
     def __init__(self):
-        pass
+        File_operate.__init__(self)
     def user_choise(self):
         choise_menu='''\033[1;31m
         ---------Welcome----------
