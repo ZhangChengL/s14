@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Author:Zhangcl
-
+import os
+from conf import setting
 class Student_manage(object):
     def __init__(self):
         pass
@@ -10,10 +11,10 @@ class Student_manage(object):
         menu_list = '''
                 \033[32;1m
                  ------- 欢迎进入学生视图 ---------
-                    1.  创建课程
-                    2.  创建班级
-                    3.  创建讲师
-                    4.  创建学校
+                    1.
+                    2.
+                    3.
+                    4.
                     5.  退出
                     \033[0m
                 '''
@@ -32,3 +33,17 @@ class Student_manage(object):
                     exit()
                 else:
                     menu_dict[choise](self)
+
+    def create_student(self):
+        student_dict = {}
+        student_login_dict={}
+        st_login_name=input('登录名：')
+        st_login_passwd=input('登录密码：')
+        st_name=input('姓名：')
+        st_sex=input('性别：')
+        student_login_dict['acc_name']=st_login_name
+        student_login_dict['passwd']=st_login_passwd
+        student_dict['姓名']=st_name
+        student_dict['性别']=st_sex
+        self.file_save(st_login_name,setting.DB_LOGIN,student_login_dict)
+        self.file_save(st_name,setting.DB_STUDENT,student_dict)
