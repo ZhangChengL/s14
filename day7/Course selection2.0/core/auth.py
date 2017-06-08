@@ -13,10 +13,9 @@ class User_login(object):
 
 
     def student_and_teacher_login(self):
-        log_time = 0
-        while self.user_date['is_auth'] != True and log_time < 3:
+        while self.user_date['is_auth'] != True :
             db_path=setting.DB_LOGIN
-            acc_file='%s/%s.pickle'%(db_path,self.account)
+            acc_file='%s/%s'%(db_path,self.account)
             if os.path.isfile(acc_file):
                 f = open(acc_file, 'rb')
                 acc_date = pickle.load(f)
@@ -26,12 +25,8 @@ class User_login(object):
                     return self.user_date
                 else:
                     print('\033[1;31m账户密码错误！请重新输入！\033[0m')
-                log_time += 1
             else:
                 print('\033[1;31m用户不存在！\033[0m')
-        else:
-            print('\033[1;31m连续登录错误3次，强制退出\033[0m')
-            exit()
 
 
     def admin_login(self):

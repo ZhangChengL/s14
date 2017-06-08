@@ -79,6 +79,7 @@ class Admin_manage():
         teacher_dict['学校']=teacher_school
         teacher_logininfo['acc_name'] = teacher_loginname
         teacher_logininfo['password'] = setting.teacher_passwd
+        teacher_logininfo['user_name'] = teacher_realname
         self.file_save(teacher_loginname,setting.DB_LOGIN,teacher_logininfo)
         self.file_save(teacher_realname,setting.DB_TEACHER,teacher_dict)
 

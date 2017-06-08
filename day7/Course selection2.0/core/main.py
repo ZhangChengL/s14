@@ -37,15 +37,15 @@ class User(File_operate):
             if login_choise in menu_dict:
                 if int(login_choise) == 4:
                     exit()
-                if  int(login_choise) ==3:
+                elif  int(login_choise) ==3:
                     username = input('请输入用户名>>>').strip()
                     passwd = input('请输入密码>>>').strip()
-                    user_dates = user_date
-                    admin_obj = User_login(username, passwd, user_dates)
+
+                    admin_obj = User_login(username, passwd, user_date)
                     admin_into = admin_obj.admin_login()
                     if admin_into:
                         menu_dict[login_choise].menu(self)
-                if int(login_choise) ==2:
+                elif int(login_choise) ==1:
                     st_mune='''\033[1;31m
                 ---------Welcome----------
                 1. 注册
@@ -58,8 +58,7 @@ class User(File_operate):
                     elif int(st_chiose) == 2:
                         username = input('请输入用户名>>>').strip()
                         passwd = input('请输入密码>>>').strip()
-                        user_dates = user_date
-                        user_obj = User_login(username, passwd, user_dates)
+                        user_obj = User_login(username, passwd, user_date)
                         user_login = user_obj.student_and_teacher_login()
                         if user_login['is_auth'] == True:
                             menu_dict[login_choise].menu(self)
@@ -70,6 +69,16 @@ class User(File_operate):
 
                     else:
                         print('\033[1;31m输入错误！！\033[0m')
+                elif int(login_choise) == 2:
+                    username = input('请输入用户名>>>').strip()
+                    passwd = input('请输入密码>>>').strip()
+
+                    user_obj = User_login(username, passwd, user_date)
+                    user_login = user_obj.student_and_teacher_login()
+                    if user_login['is_auth'] == True:
+                        menu_dict[login_choise].menu(self)
+                else:
+                    print('\033[1;31m输入错误！！\033[0m')
 
 
 
