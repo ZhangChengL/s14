@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # Author:Zhangcl
 import os
+import re
 from conf import setting
 from core import  main
 class Student_manage(object):
@@ -41,30 +42,41 @@ class Student_manage(object):
         course_choise = input('选择课程：')
         course_use = course_date[int(course_choise)]
         class_date =self.file_all('课程',course_use,setting.DB_CLASSES)
-        class_choise = input('选择班级')
+        class_choise = input('选择班级：')
         class_use = class_date[int(class_choise)]
-        st_add_course={}
-        st_add_course['课程名']=course_use
-        st_add_course['班级名']=class_use['班级']
-        #if st_usinfo['课程']==None:
-        st_usinfo['课程']=st_add_course
-        self.file_update(st_usinfo['姓名'],setting.DB_STUDENT,st_usinfo)
-        #else:
-            #count=1
-            #for i in st_usinfo:
-             #   count=count+1
-            #st_usinfo['课程%s' %count]=st_add_course
-            #self.file_save(st_usinfo['姓名'], setting.DB_STUDENT, st_usinfo)
+        course_open=self.file_open(course_use,setting.DB_COURSE)
+        course_money=course_open['价格']
+        print('你需要支付%s元' %course_money)
+        your_money=input('请输入金额：')
+        if int(your_money)==course_money:
+            st_add_course={}
+            st_add_course['课程名']=course_use
+            st_add_course['班级名']=class_use['班级']
+            if st_usinfo['课程']==None:
+                st_usinfo['课程']=st_add_course
+                self.file_update(st_usinfo['姓名'],setting.DB_STUDENT,st_usinfo)
+            else:
+                count=1
+                for i in st_usinfo:
+                    if  re.search('课程',i):
+                        count=count+1
+                st_usinfo['课程%s' %count]=st_add_course
+                self.file_update(st_usinfo['姓名'], setting.DB_STUDENT, st_usinfo)
+        else:
+            print('金额输入错误！')
     def show_course(self):
         st_loginfo = self.file_open(main.user_date['acc_name'], setting.DB_LOGIN)
         st_usinfo = self.file_open(st_loginfo['user_name'], setting.DB_STUDENT)
         for i in st_usinfo:
-            if i.find('课程')>0:
+            if re.search('课程',i):
                 print(i,st_usinfo[i])
     def show_grade(self):
         pass
     def update_passwd(self):
-        pass
+        st_loginfo = self.file_open(main.user_date['acc_name'], setting.DB_LOGIN)
+        new_passwd=input('请输入新密码：')
+        st_loginfo['password']=new_passwd
+        self.file_update(main.user_date['acc_name'], setting.DB_LOGIN,st_loginfo)
     def create_student(self):
         student_dict = {}
         student_login_dict={}
