@@ -64,8 +64,6 @@ class User(File_operate):
                             menu_dict[login_choise].menu(self)
                     elif int(st_chiose) == 1:
                         st_obj=Student_manage.create_student(self)
-                        if st_obj:
-                            Student_manage.menu(self)
 
                     else:
                         print('\033[1;31m输入错误！！\033[0m')

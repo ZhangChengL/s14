@@ -4,6 +4,7 @@
 import os
 import pickle
 from conf import setting
+from core import main
 
 class User_login(object):
     def __init__(self,account,passwd,user_date):
@@ -13,7 +14,7 @@ class User_login(object):
 
 
     def student_and_teacher_login(self):
-        while self.user_date['is_auth'] != True :
+        while  True :
             db_path=setting.DB_LOGIN
             acc_file='%s/%s'%(db_path,self.account)
             if os.path.isfile(acc_file):
@@ -24,22 +25,30 @@ class User_login(object):
                     self.user_date['is_auth'] = True
                     return self.user_date
                 else:
-                    print('\033[1;31m账户密码错误！请重新输入！\033[0m')
+                    print('\033[1;31m账户密码错误！\033[0m')
+                    log_obj = main.User
+                    log_obj.user_choise(self)
+
             else:
                 print('\033[1;31m用户不存在！\033[0m')
+                log_obj = main.User
+                log_obj.user_choise(self)
+
 
 
     def admin_login(self):
-        log_time = 0
-        if log_time < 3:
+        # log_time = 0
+        while True:
             if self.account==setting.ADMIN['account'] and self.passwd == setting.ADMIN['passwd']:
                 return  True
             else:
-                print('\033[1;31m账户密码错误！请重新输入！\033[0m')
-                log_time += 1
-        else:
-            print('\033[1;31m连续登录错误3次，强制退出\033[0m')
-            exit()
+                print('\033[1;31m账户密码错误！\033[0m')
+                # log_time += 1
+                log_obj=main.User
+                log_obj.user_choise(self)
+        # else:
+        #     print('\033[1;31m连续登录错误3次，强制退出\033[0m')
+        #     exit()
 
 
 

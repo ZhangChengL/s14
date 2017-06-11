@@ -11,7 +11,7 @@ class File_operate(object):
         if os.path.isfile(db_file) is not True:
             with open(db_file,'wb') as f:
                 date=pickle.dump(date_info,f)
-                print('\033[1;31m保存成功！\033[0m')
+
                 return True
         else:
             print('\033[1;31m已存在！\033[0m')

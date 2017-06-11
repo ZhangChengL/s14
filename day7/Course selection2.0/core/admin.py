@@ -48,7 +48,8 @@ class Admin_manage():
         course_dict['价格'] =course_prices
         course_dict['周期'] = course_period
         course_dict['学校'] = school_use
-        self.file_save(course_name,setting.DB_COURSE,course_dict)
+        if self.file_save(course_name,setting.DB_COURSE,course_dict):
+            print('\033[1;31m保存成功！\033[0m')
     def create_classes(self):
         classes_dict = {}
         school_date = self.file_find(setting.DB_SCHOOL)
@@ -58,15 +59,15 @@ class Admin_manage():
         course_choise = input('选择课程：')
         course_use = course_date[int(course_choise)]['课程']
         teacher_date = self.file_all('学校',school_use,setting.DB_TEACHER)
-        teacher_choise = input('选择讲师')
+        teacher_choise = input('选择讲师：')
         teacher_use = teacher_date[int(teacher_choise)]['姓名']
         classes_name = input('班级名：')
         classes_dict['学校']=school_use
         classes_dict['课程']=course_use
         classes_dict['讲师']=teacher_use
         classes_dict['班级']=classes_name
-        self.file_save(classes_name,setting.DB_CLASSES,classes_dict)
-
+        if self.file_save(classes_name,setting.DB_CLASSES,classes_dict):
+            print('\033[1;31m保存成功！\033[0m')
     def create_teacher(self):
         teacher_dict ={}
         teacher_logininfo={}
@@ -80,8 +81,8 @@ class Admin_manage():
         teacher_logininfo['acc_name'] = teacher_loginname
         teacher_logininfo['password'] = setting.teacher_passwd
         teacher_logininfo['user_name'] = teacher_realname
-        self.file_save(teacher_loginname,setting.DB_LOGIN,teacher_logininfo)
-        self.file_save(teacher_realname,setting.DB_TEACHER,teacher_dict)
+        if self.file_save(teacher_loginname,setting.DB_LOGIN,teacher_logininfo) and self.file_save(teacher_realname,setting.DB_TEACHER,teacher_dict):
+            print('\033[1;31m保存成功！\033[0m')
 
     def create_school(self):
         school_dict={}
@@ -93,4 +94,5 @@ class Admin_manage():
         #ff=File_operate()
         #ff.file_save(school_name,setting.DB_SCHOOL,school_dict)
         #File_operate.file_save(school_name,setting.DB_SCHOOL,school_dict)
-        self.file_save(school_name,setting.DB_SCHOOL,school_dict)
+        if self.file_save(school_name,setting.DB_SCHOOL,school_dict):
+            print('\033[1;31m保存成功！\033[0m')
