@@ -60,7 +60,7 @@ class User(File_operate):
                         passwd = input('请输入密码>>>').strip()
                         user_obj = User_login(username, passwd, user_date)
                         user_login = user_obj.student_and_teacher_login()
-                        if user_login['is_auth'] == True:
+                        if user_login:
                             menu_dict[login_choise].menu(self)
                     elif int(st_chiose) == 1:
                         st_obj=Student_manage.create_student(self)
@@ -73,39 +73,12 @@ class User(File_operate):
 
                     user_obj = User_login(username, passwd, user_date)
                     user_login = user_obj.student_and_teacher_login()
-                    if user_login['is_auth'] == True:
+                    if user_login:
                         menu_dict[login_choise].menu(self)
                 else:
                     print('\033[1;31m输入错误！！\033[0m')
 
-
-
-                # else:
-                #     username=input('请输入用户名>>>').strip()
-                #     passwd= input('请输入密码>>>').strip()
-                #     user_dates=user_date
-                #     if int(login_choise) ==3 :
-                #         admin_obj=User_login(username,passwd,user_dates)
-                #         admin_into=admin_obj.admin_login()
-                #         if admin_into:
-                #             menu_dict[login_choise].menu(self)
-                #     else:
-                #         user_obj=User_login(username,passwd,user_dates)
-                #         user_login=user_obj.student_and_teacher_login()
-                #         if user_login['is_auth'] == True:
-                #             menu_dict[login_choise].menu(self)
             else:
                 print('\033[1;31m输入错误！！\033[0m')
-
-            # if login_choise == '1':
-            #     Student_manage()
-            # elif login_choise == '2':
-            #     Teacher_manage()
-            # elif login_choise == '3':
-            #     Admin_manage()
-            # elif login_choise == '4':
-            #     exit()
-            # else:
-            #     print('\033[1;31m输入错误！！\033[0m')
 
 

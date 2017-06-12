@@ -50,8 +50,6 @@ class Student_manage(object):
         your_money=input('请输入金额：')
         if int(your_money)==int(course_money):
             st_add_course=[]
-            #st_add_course['课程名']=course_use
-            #st_add_course['班级名']=class_use['班级']
             if st_usinfo['课程']==None:
                 st_add_course.append(class_use['班级'])
                 st_usinfo['课程']=st_add_course

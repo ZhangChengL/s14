@@ -3,7 +3,6 @@
 # Author:Zhangcl
 import os
 from core.school import School
-#from core.userinfo import File_operate
 from conf import setting
 class Admin_manage():
     def __init__(self):
@@ -88,11 +87,7 @@ class Admin_manage():
         school_dict={}
         school_name= input('校名：')
         school_address= input('地址：')
-        #sc= School(school_name,school_address)
         school_dict['校名']=school_name
         school_dict['地址']=school_address
-        #ff=File_operate()
-        #ff.file_save(school_name,setting.DB_SCHOOL,school_dict)
-        #File_operate.file_save(school_name,setting.DB_SCHOOL,school_dict)
         if self.file_save(school_name,setting.DB_SCHOOL,school_dict):
             print('\033[1;31m保存成功！\033[0m')
