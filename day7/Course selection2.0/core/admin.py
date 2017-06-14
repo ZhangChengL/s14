@@ -4,7 +4,7 @@
 import os
 from core.school import School
 from conf import setting
-class Admin_manage():
+class Admin_manage(object):
     def __init__(self):
         #File_operate.__init__(self)
         pass
