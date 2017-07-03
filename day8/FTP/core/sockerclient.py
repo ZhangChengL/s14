@@ -19,7 +19,7 @@ while True:
         filename = cmd_list[1]
         if os.path.isfile(filename):
             file_obj = open(filename,'rb')
-            base_filename = filename.split('/')[-1]
+            base_filename = os.path.basename(filename)
             print(base_filename,os.path.getsize(filename))
             data_header = {
                 'action':'put',
