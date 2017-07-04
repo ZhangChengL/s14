@@ -7,7 +7,7 @@ from core.auth import Login_auth
 from core.admin import Admin_manage
 from core.user import User_manage
 user_info = None
-class User():
+class User(object):
     def __init__(self):
         pass
     def user_choise(self):
@@ -45,6 +45,7 @@ class User():
                     user_obj = Login_auth(username, passwd, user_info)
                     user_login = user_obj.user_login()
                     if user_login:
-                        menu_dict[login_choise].menu(self)
+                        print('\033[1;31m登录成功！！\033[0m')
+                        menu_dict[login_choise].server_client(self)
             else:
                 print('\033[1;31m输入错误！！\033[0m')

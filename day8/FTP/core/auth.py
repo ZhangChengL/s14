@@ -18,15 +18,16 @@ class Login_auth(object):
 
     def user_login(self):
         '''
+        普通用户登录验证接口
         :return:
         '''
         db_path = setting.USER_INFO_PATH
         user_file = os.path.join(db_path,self.account)
         if os.path.isfile(user_file):
-            f = open(user_file,'rb')
+            f = open(user_file,'r')
             acc_date = json.load(f)
             if acc_date['passwd'] == self.passwd:
-                acc_date['account'] = self.user_info
+                self.user_info = acc_date['account']
                 return self.user_info
             else:
                 print('\033[1;31m密码错误！\033[0m')
@@ -36,6 +37,7 @@ class Login_auth(object):
 
     def admin_login(self):
         '''
+        管理员登录验证接口
         :return:
         '''
         if self.account == setting.ADMIN_INFO['username'] and self.passwd == setting.ADMIN_INFO['password']:
