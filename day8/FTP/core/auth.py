@@ -22,7 +22,7 @@ class Login_auth(object):
         :return:
         '''
         db_path = setting.USER_INFO_PATH
-        user_file = os.path.join(db_path,self.account)
+        user_file = os.path.join(db_path,self.account) #获取用户登录信息数据
         if os.path.isfile(user_file):
             f = open(user_file,'r')
             acc_date = json.load(f)

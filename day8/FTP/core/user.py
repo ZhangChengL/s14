@@ -18,14 +18,17 @@ class User_manage(object):
         ============================================================
         \033[0m'''
         print(Ps)
+
         client = socket.socket()
         Host, Port = 'localhost', 8900
         client.connect((Host, Port))
+
         while True:
             choice = input('>>>>>').strip()
             if len(choice) == 0:
                 continue
             cmd_list = choice.split()
+
             if cmd_list[0] == 'put':
                 if len(cmd_list) == 1:
                     print('请输入文件名！')
@@ -96,3 +99,5 @@ class User_manage(object):
                 file_list = json.loads(return_list)
                 for i in  file_list:
                     print(i)
+            else:
+                print('输入错误！')

@@ -40,7 +40,7 @@ class Admin_manage(object):
             'account' :user_acc,
             'passwd':setting.Default_password
         }
-        admin_obj = User_info(user_acc,acc_data)
+        admin_obj = User_info(user_acc,acc_data)#调用信息存放接口
         admin_dump = admin_obj.dump_info()
         if admin_dump:
             print('创建成功！')
@@ -53,12 +53,12 @@ class Admin_manage(object):
         '''
         user_acc = input('请输入用户名>>>:')
         acc_data = None
-        admin_obj = User_info(user_acc, acc_data)
+        admin_obj = User_info(user_acc, acc_data) #调用信息读取接口，获取用户信息
         admin_load = admin_obj.load_info()
         if admin_load:
             new_passwd = input('请输入新密码>>>:')
             admin_load['passwd'] = new_passwd
-            update_obj = User_info(user_acc, admin_load)
+            update_obj = User_info(user_acc, admin_load) #调用信息存放接口
             update_dump = update_obj.update_info()
             if update_dump:
                 print('修改成功！')

@@ -14,9 +14,9 @@ class User_info(object):
         :return:
         '''
         user_path = setting.USER_INFO_PATH
-        user_file = os.path.join(user_path,self.account)
+        user_file = os.path.join(user_path,self.account) #获取用户登录信息文件路径
         file_path = setting.USER_FILE_PATH
-        user_file_path = os.path.join(file_path,self.account)
+        user_file_path = os.path.join(file_path,self.account) #获取用户ftp个人文件存放路径
         if os.path.isfile(user_file) is not True:
             with open(user_file,'w') as f:
                 user_date = json.dump(self.acc_date,f)
