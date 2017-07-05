@@ -46,6 +46,7 @@ class User(object):
                     user_login = user_obj.user_login()
                     if user_login:
                         print('\033[1;31m登录成功！！\033[0m')
-                        menu_dict[login_choise].server_client(self)
+                        user_obj=menu_dict[login_choise](user_login)
+                        user_client = user_obj.server_client()
             else:
                 print('\033[1;31m输入错误！！\033[0m')
