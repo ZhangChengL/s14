@@ -16,18 +16,18 @@ class Myserver(socketserver.BaseRequestHandler):
            print("got connection from", self.client_address)
            conn = self.request
            while True:
-                data = conn.recv(1024)
+                data = conn.recv(1024) #接收客户端发送的操作请求信息，根据请求类型做出对应操作
                 print('recv data:',data)
                 data = json.loads(data.decode())
 
                 if data.get('action') is not None:
                     if data['action'] == 'put':
                         user_path = setting.USER_FILE_PATH
-                        user_file = os.path.join(user_path, data['account'],data['filename'])
+                        user_file = os.path.join(user_path, data['account'],data['filename']) #拼凑出需要存放的文件路径
                         file_obj = open(user_file,'wb')
                         received_size = 0
 
-                        while received_size < data['size']:
+                        while received_size < data['size']:#根据接收到的文件大小和服务端返回的文件大小判断文件是否传输完毕
                             recv_data = conn.recv(4096)
                             file_obj.write(recv_data)
                             received_size += len(recv_data)
@@ -36,17 +36,17 @@ class Myserver(socketserver.BaseRequestHandler):
                             print('------successfully received file %s-----'%(data['filename']))
                             file_obj.close()
                     elif data['action'] == 'get':
-                        user_path = setting.USER_FILE_PATH
+                        user_path = setting.USER_FILE_PATH #获取请求用户家目录
                         print(user_path)
-                        user_file = os.path.join(user_path,data['account'],data['filename'])
+                        user_file = os.path.join(user_path,data['account'],data['filename']) #获取请求下载文件完整路径
                         print(user_file)
                         if os.path.isfile(user_file):
-                            file_size = os.path.getsize(user_file)
-                            conn.send(str(file_size).encode())
+                            file_size = os.path.getsize(user_file) #获得需要下载文件的大小
+                            conn.send(str(file_size).encode()) #发送给客户端
                             client_final_ack = conn.recv(1024)
-                            print('客户端应答：',client_final_ack.decode())
+                            print('客户端应答：',client_final_ack.decode())#客户端接收到文件大小并进行应答
                             file_send = open(user_file,'rb')
-                            for i in file_send:
+                            for i in file_send: #发送需要下载文件的内容
                                 conn.send(i)
                         else:
                             conn.send('文件不存在！'.encode())
