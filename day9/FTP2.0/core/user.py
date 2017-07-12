@@ -5,6 +5,7 @@
 import socket
 import os
 import json
+import sys
 from conf import setting
 from core.file_md5 import file_md5
 class User_manage(object):
@@ -119,9 +120,16 @@ class User_manage(object):
                     'file_md5':md5_get
                 }
                 client.send(json.dumps(data_header).encode())  # 发送准备发送的文件信息
+                send_size = 0
                 for line in file_obj:
                     client.send(line)  # 发送文件内容
-                print('----send file done----')
+                    send_size += len(line)
+                    ret = send_size/(os.path.getsize(filename))
+                    num = int(ret*100)
+                    view = '\r%s%%%-100s'%(num,'\033[1;31m>\033[0m'*num)
+                    sys.stdout.write(view)
+                    sys.stdout.flush()
+                print('\n\033[1;31m----send file done----\033[0m')
             else:
                 print('file is not valid')
         else:
