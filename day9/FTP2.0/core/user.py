@@ -109,8 +109,8 @@ class User_manage(object):
                 file_obj = open(filename, 'rb')
                 base_filename = os.path.basename(filename)  # 获取文件名
                 print(base_filename, os.path.getsize(filename))
-                md5_02 = file_md5(filename)
-                md5_get = str(md5_02.get_md5)
+                md5_obj = file_md5(filename)
+                md5_get = str(md5_obj.get_md5())
                 data_header = {
                     'action': 'put',
                     'filename': base_filename,

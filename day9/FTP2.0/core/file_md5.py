@@ -18,9 +18,9 @@ class file_md5(object):
         md5 = str(hash_code).lower()
         return md5
 
-if __name__ == "__main__":
-  file_path = 'F:/my_send.txt'
-  md5_02 = file_md5(file_path)
-  md5_get = str(md5_02.get_md5())
-  print(md5_get)
-  print(type(md5_get))
+# if __name__ == "__main__":
+#   file_path = 'F:/my_send.txt'
+#   md5_02 = file_md5(file_path)
+#   md5_get = str(md5_02.get_md5())
+#   print(md5_get)
+#   print(type(md5_get))

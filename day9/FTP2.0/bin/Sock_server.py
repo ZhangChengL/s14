@@ -76,7 +76,7 @@ class Myserver(socketserver.BaseRequestHandler):
         else:
             file_obj.close()
             md5_02 = file_md5(user_file)
-            md5_get = md5_02.get_md5
+            md5_get = md5_02.get_md5()
             print(str(md5_get))
             if str(md5_get) == data['file_md5']:
                 print('------successfully received file %s-----' % (data['filename']))
