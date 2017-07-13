@@ -13,18 +13,21 @@ from conf import setting
 from core.file_md5 import file_md5
 class Myserver(socketserver.BaseRequestHandler):
     def handle(self):
-       while True:
-           print("got connection from", self.client_address)
-           conn = self.request
+        try:
            while True:
-                data = conn.recv(1024) #接收客户端发送的操作请求信息，根据请求类型做出对应操作
-                print('recv data:',data)
-                data = json.loads(data.decode())
+                print("got connection from", self.client_address)
+                conn = self.request
+                while True:
+                    data = conn.recv(1024) #接收客户端发送的操作请求信息，根据请求类型做出对应操作
+                    print('recv data:',data)
+                    data = json.loads(data.decode())
 
-                if data.get('action') is not None:
-                    if hasattr(self,'cmd_%s' %data['action']):
-                        func = getattr(self,'cmd_%s' %data['action'])
-                        func(data,conn)
+                    if data.get('action') is not None:
+                        if hasattr(self,'cmd_%s' %data['action']):
+                            func = getattr(self,'cmd_%s' %data['action'])
+                            func(data,conn)
+        except ConnectionResetError as e:
+            print('连接已断开',e)
                     # if data['action'] == 'put':
                     #     user_path = setting.USER_FILE_PATH
                     #     user_file = os.path.join(user_path, data['account'],data['filename']) #拼凑出需要存放的文件路径
@@ -80,8 +83,11 @@ class Myserver(socketserver.BaseRequestHandler):
             print(str(md5_get),data['file_md5'])
             if str(md5_get) == data['file_md5']:
                 print('------successfully received file %s-----' % (data['filename']))
+                conn.send('\n\033[1;31m----send file done----\033[0m'.encode())
             else:
-                print('md5不一致')
+                print('md5不一致,系统已自动删除该文件')
+                conn.send('md5不一致,系统已自动删除该文件'.encode())
+                os.remove(user_file)
     def cmd_get(self,*args):
         data = args[0]
         conn = args[1]
@@ -91,7 +97,13 @@ class Myserver(socketserver.BaseRequestHandler):
         print(user_file)
         if os.path.isfile(user_file):
             file_size = os.path.getsize(user_file) #获得需要下载文件的大小
-            conn.send(str(file_size).encode()) #发送给客户端
+            md5_obj = file_md5(user_file)
+            md5_get = md5_obj.get_md5()
+            get_send = {
+                'file_size':file_size,
+                'md5_get':md5_get
+            }
+            conn.send(json.dumps(get_send).encode()) #发送给客户端
             client_final_ack = conn.recv(1024)
             print('客户端应答：',client_final_ack.decode())#客户端接收到文件大小并进行应答
             file_send = open(user_file,'rb')
