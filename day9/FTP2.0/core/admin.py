@@ -13,18 +13,20 @@ class Admin_manage(object):
         ---------Welcome----------
         1. 创建用户
         2. 修改用户密码
-        3. 退出\033[0m
+        3. 修改磁盘配额
+        4. 退出\033[0m
         '''
         admin_dict={
             '1':Admin_manage.create_user,
             '2':Admin_manage.update_passwd,
-            '3':'loginout'
+            '3':Admin_manage.update_space,
+            '4':'loginout'
         }
         while True:
             print(admin_mune)
             login_choise=input('请选择>>>>').strip()
             if login_choise in admin_dict:
-                if int(login_choise) == 3:
+                if int(login_choise) == 4:
                     exit()
                 else:
                     admin_dict[login_choise](self)
@@ -36,9 +38,12 @@ class Admin_manage(object):
         :return:
         '''
         user_acc=input('请输入用户名>>>:')
+        user_space = input('请输入磁盘配额（M）>>>:')
+        user_space = int(user_space)*1024*1024
         acc_data = {
             'account' :user_acc,
-            'passwd':setting.Default_password
+            'passwd':setting.Default_password,
+            'space':user_space
         }
         admin_obj = User_info(user_acc,acc_data)#调用信息存放接口
         admin_dump = admin_obj.dump_info()
@@ -63,3 +68,22 @@ class Admin_manage(object):
             if update_dump:
                 print('修改成功！')
 
+    def update_space(self):
+        '''
+        修改用户磁盘空间配额
+        :return:
+        '''
+        user_acc = input('请输入用户名>>>:')
+        acc_data = None
+        admin_obj = User_info(user_acc, acc_data)  # 调用信息读取接口，获取用户信息
+        admin_load = admin_obj.load_info()
+        if admin_load:
+            new_space = input('请输入新的磁盘配额：')
+            if int(new_space) >= int(admin_load['space']):
+                admin_load['space'] = new_space
+                update_obj = User_info(user_acc,admin_load)
+                update_dump = update_obj.update_info()
+                if update_dump:
+                    print('修改成功！')
+            else:
+                print('\033[1;31m新的磁盘空间大小不能小于预设磁盘空间大小！\033[0m')

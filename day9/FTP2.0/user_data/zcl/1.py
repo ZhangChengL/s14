@@ -11,4 +11,8 @@ import os.path
 for parent, dirnames, filenames in os.walk(rootdir):
     for filename in filenames:
         #print("parent folder is:" + parent)
-        print(os.path.join(parent, filename),'|',os.path.getsize(os.path.join(parent, filename)))
+        print(os.path.getsize(os.path.join(parent, filename)))
+
+
+a = 9.918135643005371
+print(type(int(round(a,2))))

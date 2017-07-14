@@ -8,9 +8,11 @@ import json
 import sys
 from conf import setting
 from core.file_md5 import file_md5
+from core.userinfo import User_info
 class User_manage(object):
     def __init__(self,account):
         self.account=account
+        self.user_path = os.path.join(setting.USER_FILE_PATH,account)
     def server_client(self):
         print(setting.Ps)
         client = socket.socket()
@@ -115,25 +117,34 @@ class User_manage(object):
                 print(base_filename, os.path.getsize(filename))
                 md5_obj = file_md5(filename)
                 md5_get = str(md5_obj.get_md5())
+                acc_data = None
+                admin_obj = User_info(self.account, acc_data)  # 调用信息读取接口，获取用户信息
+                admin_load = admin_obj.load_info()
                 data_header = {
                     'action': 'put',
                     'filename': base_filename,
                     'size': os.path.getsize(filename),
                     'account': self.account,
-                    'file_md5':md5_get
+                    'file_md5':md5_get,
+                    'space':admin_load['space'],
+                    'user_path':self.user_path
                 }
                 client.send(json.dumps(data_header).encode())  # 发送准备发送的文件信息
-                send_size = 0
-                for line in file_obj:
-                    client.send(line)  # 发送文件内容
-                    send_size += len(line)
-                    ret = send_size/(os.path.getsize(filename))
-                    num = int(ret*100)
-                    view = '\r%s%%%-100s'%(num,'\033[1;31m>\033[0m'*num)
-                    sys.stdout.write(view)
-                    sys.stdout.flush()
-                # print('\n\033[1;31m----send file done----\033[0m')
                 print(client.recv(1024).decode())
+                can_send = json.loads(client.recv(1024).decode())
+                if can_send['can_send'] == 1:
+                    send_size = 0
+                    for line in file_obj:
+                        client.send(line)  # 发送文件内容
+                        send_size += len(line)
+                        ret = send_size/(os.path.getsize(filename))
+                        num = int(ret*100)
+                        view = '\r%s%%%-100s'%(num,'\033[1;31m>\033[0m'*num)
+                        sys.stdout.write(view)
+                        sys.stdout.flush()
+                    # print('\n\033[1;31m----send file done----\033[0m')
+                    print(client.recv(1024).decode())
+
 
             else:
                 print('file is not valid')
@@ -153,7 +164,8 @@ class User_manage(object):
                         'action':'get',
                         'filename':filename,
                         'save_file':save_file,
-                        'account':self.account
+                        'account':self.account,
+                        'user_path': self.user_path
                     }
                     client.send(json.dumps(data_header).encode())  #发送需要下载的文件信息
                     return_get = json.loads(client.recv(1024).decode()) #接收服务端发送的需要下载文件的大小
@@ -188,7 +200,9 @@ class User_manage(object):
         client = args[1]
         data_header = {
             'action':'ls',
-            'account':self.account
+            'account':self.account,
+            'user_path': self.user_path
+
         }
         client.send(json.dumps(data_header).encode()) #发送需要查看的用户名
         return_list=client.recv(4096).decode() #接收服务端发送的查询到的文件列表
@@ -196,3 +210,18 @@ class User_manage(object):
         for i in  file_list:
             print(i)
 
+    def cmd_cd(self,*args):
+        cmd_list = args[0]
+        client = args[1]
+        if len(cmd_list) == 2:
+            change_dir  = cmd_list[-1]
+            user_path = self.user_path
+            data_header = {
+                'action':'cd',
+                'user_path':user_path,
+                'change_dir':change_dir
+            }
+            client.send(json.dumps(data_header).encode())
+            return_dir = client.recv(4096).decode()
+            self.user_path = return_dir
+            print(self.user_path)

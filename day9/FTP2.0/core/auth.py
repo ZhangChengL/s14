@@ -27,7 +27,7 @@ class Login_auth(object):
             f = open(user_file,'r')
             acc_date = json.load(f)
             if acc_date['passwd'] == self.passwd:
-                self.user_info = acc_date['account']
+                self.user_info= acc_date['account']
                 return self.user_info
             else:
                 print('\033[1;31m密码错误！\033[0m')

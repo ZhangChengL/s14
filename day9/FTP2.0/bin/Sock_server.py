@@ -21,6 +21,7 @@ class Myserver(socketserver.BaseRequestHandler):
                     data = conn.recv(1024) #接收客户端发送的操作请求信息，根据请求类型做出对应操作
                     print('recv data:',data)
                     data = json.loads(data.decode())
+                    print(data['user_path'])
 
                     if data.get('action') is not None:
                         if hasattr(self,'cmd_%s' %data['action']):
@@ -66,34 +67,47 @@ class Myserver(socketserver.BaseRequestHandler):
     def cmd_put(self,*args):
         data = args[0]
         conn = args[1]
-        user_path = setting.USER_FILE_PATH
-        user_file = os.path.join(user_path, data['account'],data['filename']) #拼凑出需要存放的文件路径
-        file_obj = open(user_file,'wb')
-        received_size = 0
+        user_file = os.path.join(data['user_path'],data['filename']) #拼凑出需要存放的文件路径
+        use_size = 0
+        for parent, dirnames, filenames in os.walk(data['user_path']):
+            for filename in filenames:
+                use_size += os.path.getsize(os.path.join(parent, filename))
+        print('use_size',use_size)
+        if int(use_size)+int(data['size']) < int(data['space']):
+            surplus_spcae=(int(data['space'])-int(use_size))/1024/1024
+            surplus_spcae = round(surplus_spcae,2)
+            conn.send(('\033[1;31m剩余可用空间：%s M\033[0m' %surplus_spcae).encode())
+            can_send = {'can_send':1}
+            conn.send(json.dumps(can_send).encode())
+            file_obj = open(user_file,'wb')
+            received_size = 0
 
-        while received_size < data['size']:#根据接收到的文件大小和服务端返回的文件大小判断文件是否传输完毕
-            recv_data = conn.recv(4096)
-            file_obj.write(recv_data)
-            received_size += len(recv_data)
-            print(data['size'],received_size)
-        else:
-            file_obj.close()
-            md5_02 = file_md5(user_file)
-            md5_get = md5_02.get_md5()
-            print(str(md5_get),data['file_md5'])
-            if str(md5_get) == data['file_md5']:
-                print('------successfully received file %s-----' % (data['filename']))
-                conn.send('\n\033[1;31m----send file done----\033[0m'.encode())
+            while received_size < data['size']:#根据接收到的文件大小和服务端返回的文件大小判断文件是否传输完毕
+                recv_data = conn.recv(4096)
+                file_obj.write(recv_data)
+                received_size += len(recv_data)
+                print(data['size'],received_size)
             else:
-                print('md5不一致,系统已自动删除该文件')
-                conn.send('md5不一致,系统已自动删除该文件'.encode())
-                os.remove(user_file)
+                file_obj.close()
+                md5_02 = file_md5(user_file)
+                md5_get = md5_02.get_md5()
+                print(str(md5_get),data['file_md5'])
+                if str(md5_get) == data['file_md5']:
+                    print('------successfully received file %s-----' % (data['filename']))
+                    conn.send('\n\033[1;31m----send file done----\033[0m'.encode())
+                else:
+                    print('md5不一致,系统已自动删除该文件')
+                    conn.send('md5不一致,系统已自动删除该文件'.encode())
+                    os.remove(user_file)
+        else:
+            conn.send('\033[1;31m剩余空间不足，请联系管理员!\033[0m'.encode())
+            can_send = {'can_send': 0}
+            conn.send(json.dumps(can_send).encode())
+
     def cmd_get(self,*args):
         data = args[0]
         conn = args[1]
-        user_path = setting.USER_FILE_PATH  # 获取请求用户家目录
-        print(user_path)
-        user_file = os.path.join(user_path,data['account'],data['filename']) #获取请求下载文件完整路径
+        user_file = os.path.join(data['user_path'],data['filename']) #获取请求下载文件完整路径
         print(user_file)
         if os.path.isfile(user_file):
             file_size = os.path.getsize(user_file) #获得需要下载文件的大小
@@ -115,13 +129,19 @@ class Myserver(socketserver.BaseRequestHandler):
     def cmd_ls(self,*args):
         data = args[0]
         conn = args[1]
-        user_path = os.path.join(setting.USER_FILE_PATH,data['account'])
-        print(user_path)
-        if os.path.isdir(user_path):
-            file_list = os.listdir(user_path)
+        print(data['user_path'])
+        if os.path.isdir(data['user_path']):
+            file_list = os.listdir(data['user_path'])
             conn.send(json.dumps(file_list).encode())
+        else:
+            print('xxxx')
 
-
+    def cmd_cd(self,*args):
+        data = args[0]
+        conn = args[1]
+        if os.path.isdir(os.path.join(data['user_path'],data['change_dir'])):
+            new_path = os.path.join(data['user_path'],data['change_dir'])
+            conn.send(new_path.encode())
 if __name__ == '__main__':
     Host,Port='localhost',8900
     server = socketserver.ThreadingTCPServer((Host,Port),Myserver)
