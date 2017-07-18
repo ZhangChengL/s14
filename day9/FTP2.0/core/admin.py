@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # Author:Zhangcl
 import os
+import hashlib
 from conf import setting
 from core.userinfo import User_info
 class Admin_manage(object):
@@ -40,9 +41,12 @@ class Admin_manage(object):
         user_acc=input('请输入用户名>>>:')
         user_space = input('请输入磁盘配额（M）>>>:')
         user_space = int(user_space)*1024*1024
+        hash = hashlib.md5()
+        hash.update(setting.Default_password.encode())
+        md5_passwd=hash.hexdigest()
         acc_data = {
             'account' :user_acc,
-            'passwd':setting.Default_password,
+            'passwd':md5_passwd,
             'space':user_space
         }
         admin_obj = User_info(user_acc,acc_data)#调用信息存放接口
@@ -62,7 +66,10 @@ class Admin_manage(object):
         admin_load = admin_obj.load_info()
         if admin_load:
             new_passwd = input('请输入新密码>>>:')
-            admin_load['passwd'] = new_passwd
+            hash = hashlib.md5()
+            hash.update(new_passwd.encode())
+            md5_passwd = hash.hexdigest()
+            admin_load['passwd'] = md5_passwd
             update_obj = User_info(user_acc, admin_load) #调用信息存放接口
             update_dump = update_obj.update_info()
             if update_dump:

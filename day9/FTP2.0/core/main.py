@@ -3,6 +3,7 @@
 # Author:Zhangcl
 import os
 import json
+import hashlib
 from core.auth import Login_auth
 from core.admin import Admin_manage
 from core.user import User_manage
@@ -43,7 +44,10 @@ class User(object):
                 elif int(login_choise) == 1:
                     username = input('请输入用户名>>>').strip()
                     passwd = input('请输入密码>>>').strip()
-                    user_obj = Login_auth(username, passwd, user_info) #调用普通用户认证接口
+                    hash = hashlib.md5()
+                    hash.update(passwd.encode())
+                    md5_passwd = hash.hexdigest()
+                    user_obj = Login_auth(username, md5_passwd, user_info) #调用普通用户认证接口
                     user_login = user_obj.user_login()
                     if user_login:
                         print('\033[1;31m登录成功！！\033[0m')

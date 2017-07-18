@@ -76,33 +76,76 @@ class Myserver(socketserver.BaseRequestHandler):
         if int(use_size)+int(data['size']) < int(data['space']):
             surplus_spcae=(int(data['space'])-int(use_size))/1024/1024
             surplus_spcae = round(surplus_spcae,2)
-            conn.send(('\033[1;31m剩余可用空间：%s M\033[0m' %surplus_spcae).encode())
+            #conn.send(('\033[1;31m剩余可用空间：%s M\033[0m' % surplus_spcae).encode())
             can_send = {'can_send':1}
-            conn.send(json.dumps(can_send).encode())
-            file_obj = open(user_file,'wb')
-            received_size = 0
-
-            while received_size < data['size']:#根据接收到的文件大小和服务端返回的文件大小判断文件是否传输完毕
-                recv_data = conn.recv(4096)
-                file_obj.write(recv_data)
-                received_size += len(recv_data)
-                print(data['size'],received_size)
+            if os.path.isfile(user_file):
+                can_send['if_continue'] = '1'
             else:
-                file_obj.close()
-                md5_02 = file_md5(user_file)
-                md5_get = md5_02.get_md5()
-                print(str(md5_get),data['file_md5'])
-                if str(md5_get) == data['file_md5']:
-                    print('------successfully received file %s-----' % (data['filename']))
-                    conn.send('\n\033[1;31m----send file done----\033[0m'.encode())
-                else:
-                    print('md5不一致,系统已自动删除该文件')
-                    conn.send('md5不一致,系统已自动删除该文件'.encode())
-                    os.remove(user_file)
-        else:
-            conn.send('\033[1;31m剩余空间不足，请联系管理员!\033[0m'.encode())
-            can_send = {'can_send': 0}
+                can_send['if_continue'] = '0'
             conn.send(json.dumps(can_send).encode())
+            conn.send(('\033[1;31m剩余可用空间：%s M\033[0m' % surplus_spcae).encode())
+            if os.path.isfile(user_file):
+                # if_continue = '1'
+                # conn.send(if_continue.encode())
+                is_file_szie =os.path.getsize(user_file)
+                conn.send(str(is_file_szie).encode())
+                file_obj = open(user_file, 'ab')
+                while int(is_file_szie) < data['size']:
+                    recv_data = conn.recv(4096)
+                    file_obj.write(recv_data)
+                    is_file_szie += len(recv_data)
+                    #print(data['size'], is_file_szie)
+                else:
+                    file_obj.flush()
+                    file_obj.close()
+                    print(data['size'], is_file_szie)
+                    md5_02 = file_md5(user_file)
+                    md5_get = md5_02.get_md5()
+                    print(str(md5_get), data['file_md5'])
+                    if str(md5_get) == data['file_md5']:
+                        print('------successfully received file %s-----' % (data['filename']))
+                        conn.send('\n\033[1;31m----send file done----\033[0m'.encode())
+                    else:
+                        print('\nmd5不一致,系统已自动删除该文件')
+                        conn.send('\nmd5不一致,系统已自动删除该文件'.encode())
+                        os.remove(user_file)
+            else:
+                # if_continue = '0'
+                # conn.send(if_continue.encode())
+                file_obj = open(user_file,'wb')
+                received_size = 0
+
+                while received_size < data['size']:#根据接收到的文件大小和服务端返回的文件大小判断文件是否传输完毕
+                    recv_data = conn.recv(4096)
+                    file_obj.write(recv_data)
+                    received_size += len(recv_data)
+                    #print(data['size'],received_size)
+                else:
+                    file_obj.flush()
+                    file_obj.close()
+                    print(data['size'], received_size)
+                    md5_02 = file_md5(user_file)
+                    md5_get = md5_02.get_md5()
+                    print(str(md5_get),data['file_md5'])
+                    if str(md5_get) == data['file_md5']:
+                        print('------successfully received file %s-----' % (data['filename']))
+                        conn.send('\n\033[1;31m----send file done----\033[0m'.encode())
+                    else:
+                        print('md5不一致,系统已自动删除该文件')
+                        conn.send('md5不一致,系统已自动删除该文件'.encode())
+                        os.remove(user_file)
+        else:
+            print('\033[1;31m剩余空间不足，请联系管理员!\033[0m')
+            can_send = {'can_send': 0}
+            if os.path.isfile(user_file):
+                can_send['if_continue'] = '1'
+            else:
+                can_send['if_continue'] = '0'
+            conn.send(json.dumps(can_send).encode())
+            conn.send('\033[1;31m剩余空间不足，请联系管理员!\033[0m'.encode())
+            # if_continue = '0'
+            # conn.send(if_continue.encode())
+
 
     def cmd_get(self,*args):
         data = args[0]
@@ -140,8 +183,24 @@ class Myserver(socketserver.BaseRequestHandler):
         data = args[0]
         conn = args[1]
         if os.path.isdir(os.path.join(data['user_path'],data['change_dir'])):
+            conn.send('1'.encode())
             new_path = os.path.join(data['user_path'],data['change_dir'])
             conn.send(new_path.encode())
+        else:
+            conn.send('0'.encode())
+            conn.send('\033[1;31m目录不存在！\033[0m'.encode())
+
+    def cmd_cd_back(self,*args):
+        data = args[0]
+        conn = args[1]
+        if os.path.basename(os.path.dirname(os.path.abspath(data['user_path']))) == 'user_data':
+            conn.send('0'.encode())
+            conn.send('\033[1;31m无法返回上级目录！\033[0m'.encode())
+        else:
+            conn.send('1'.encode())
+            new_path = os.path.dirname(os.path.abspath(data['user_path']))
+            conn.send(new_path.encode())
+
 if __name__ == '__main__':
     Host,Port='localhost',8900
     server = socketserver.ThreadingTCPServer((Host,Port),Myserver)
